@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="vi" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenArch — Cài đặt bộ công cụ hợp pháp cho thiết kế &amp; xây dựng</title>
+  <meta name="description" content="OpenArch giúp studio kiến trúc, công ty xây dựng và kỹ sư công trường chuẩn hóa máy làm việc bằng phần mềm hợp pháp, có ebook, training và hỗ trợ sau cài đặt." />
+  <meta name="keywords" content="phần mềm kiến trúc hợp pháp,thay thế AutoCAD,thay thế Revit,Blender BIM,FreeCAD,open source kiến trúc,IFC workflow,cài đặt phần mềm kiến trúc,training kiến trúc,OpenArch" />
+  <meta name="author" content="OpenArch" />
+  <meta property="og:title" content="OpenArch — Cài đặt bộ công cụ hợp pháp cho thiết kế &amp; xây dựng" />
+  <meta property="og:description" content="OpenArch giúp studio kiến trúc, công ty xây dựng và kỹ sư công trường chuẩn hóa máy làm việc bằng phần mềm hợp pháp, có ebook, training và hỗ trợ sau cài đặt." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://openarch.vn" />
+  <meta property="og:site_name" content="OpenArch" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="OpenArch — Cài đặt bộ công cụ hợp pháp cho thiết kế &amp; xây dựng" />
+  <meta name="twitter:description" content="OpenArch giúp studio kiến trúc, công ty xây dựng và kỹ sư công trường chuẩn hóa máy làm việc bằng phần mềm hợp pháp." />
+  <link rel="canonical" href="https://openarch.vn" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            border: 'hsl(var(--border))',
+            muted: { DEFAULT: 'hsl(var(--muted))', foreground: 'hsl(var(--muted-foreground))' },
+            accent: { DEFAULT: 'hsl(var(--accent))', foreground: 'hsl(var(--accent-foreground))' },
+            primary: { DEFAULT: 'hsl(var(--primary))', foreground: 'hsl(var(--primary-foreground))' },
+            card: { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Custom styles: CSS variables, FAQ, language, brand overrides -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+<!-- ==================== NAV ==================== -->
+<header id="top" class="sticky top-0 z-50 w-full border-b-theme bg-white/95 dark:bg-black/95 backdrop-blur-md">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+
+    <!-- Logo -->
+    <a href="#top" class="flex items-center gap-2 shrink-0">
+      <img src="/assets/images/openarch-logo.png" alt="OpenArch" class="h-7 w-auto" onerror="this.style.display='none'" />
+      <span class="hidden font-bold text-lg tracking-tight">OA OPENARCH</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+      <a href="#goi-dich-vu" class="hover:opacity-70 transition-opacity" data-vi>Gói dịch vụ</a>
+      <a href="#goi-dich-vu" class="hover:opacity-70 transition-opacity" data-en style="display:none">Services</a>
+      <a href="#quy-trinh" class="hover:opacity-70 transition-opacity" data-vi>Quy trình</a>
+      <a href="#quy-trinh" class="hover:opacity-70 transition-opacity" data-en style="display:none">Process</a>
+      <a href="#ebook" class="hover:opacity-70 transition-opacity">Ebook</a>
+      <a href="#faq" class="hover:opacity-70 transition-opacity">FAQ</a>
+    </nav>
+
+    <!-- Right controls -->
+    <div class="flex items-center gap-2">
+      <!-- Lang toggle -->
+      <button id="lang-btn" onclick="toggleLang()" class="text-sm font-medium px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        <span id="lang-label">VI</span>
+      </button>
+
+      <!-- Dark mode toggle -->
+      <button onclick="toggleDark()" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle dark mode">
+        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden dark:block"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block dark:hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+
+      <!-- CTA -->
+      <a href="#dang-ky" class="hidden sm:inline-flex items-center gap-1.5 bg-black dark:bg-white text-white dark:text-black text-sm font-medium px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+        <span data-vi>Đăng ký tư vấn</span>
+        <span data-en style="display:none">Get Started</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+
+      <!-- Mobile menu toggle -->
+      <button class="md:hidden p-2" onclick="document.getElementById('mobile-menu').classList.toggle('open')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden border-t-theme bg-white dark:bg-black px-4 py-4 space-y-3 text-sm font-medium">
+    <a href="#goi-dich-vu" class="block py-1" onclick="document.getElementById('mobile-menu').classList.remove('open')" data-vi>Gói dịch vụ</a>
+    <a href="#quy-trinh" class="block py-1" onclick="document.getElementById('mobile-menu').classList.remove('open')" data-vi>Quy trình</a>
+    <a href="#ebook" class="block py-1" onclick="document.getElementById('mobile-menu').classList.remove('open')">Ebook</a>
+    <a href="#faq" class="block py-1" onclick="document.getElementById('mobile-menu').classList.remove('open')">FAQ</a>
+    <a href="#dang-ky" class="block py-1 font-semibold" onclick="document.getElementById('mobile-menu').classList.remove('open')" data-vi>Đăng ký tư vấn →</a>
+  </div>
+</header>
+
+<main class="flex-1">
+
+<!-- ==================== HERO ==================== -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-16">
+  <!-- Pill badge -->
+  <div class="flex justify-center mb-8">
+    <span class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full border" style="border-color:hsl(var(--border));background:hsl(var(--muted))">
+      <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+      <span data-vi>Cài đặt trước · Training · Hỗ trợ sau cài</span>
+      <span data-en style="display:none">Pre-install · Training · Post-install Support</span>
+    </span>
+  </div>
+
+  <!-- Heading -->
+  <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-center leading-[1.05] tracking-tight mb-6 max-w-4xl mx-auto">
+    <span data-vi>Chuẩn hóa thiết kế &amp; công trường bằng phần mềm hợp pháp</span>
+    <span data-en style="display:none">Standardize Design &amp; Construction with Legal Software</span>
+  </h1>
+
+  <!-- Sub -->
+  <p class="text-lg sm:text-xl text-center max-w-2xl mx-auto mb-10" style="color:hsl(var(--muted-foreground))">
+    <span data-vi>OpenArch giúp studio kiến trúc, công ty xây dựng và kỹ sư công trường cài đặt bộ công cụ làm việc hợp pháp, miễn phí bản quyền, có ebook hướng dẫn và training để dùng được ngay.</span>
+    <span data-en style="display:none">OpenArch helps architecture studios, construction companies and site engineers install legal, license-free toolsets with ebooks and training for immediate productivity.</span>
+  </p>
+
+  <!-- CTAs -->
+  <div class="flex flex-col sm:flex-row gap-3 justify-center items-center mb-16">
+    <a href="#dang-ky" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black dark:bg-white text-white dark:text-black font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">
+      <span data-vi>Đăng ký kiểm tra miễn phí</span>
+      <span data-en style="display:none">Register Free Check</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+    <a href="#goi-dich-vu" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border font-medium px-6 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors" style="border-color:hsl(var(--border))">
+      <span data-vi>Xem các gói cài đặt</span>
+      <span data-en style="display:none">View Packages</span>
+    </a>
+  </div>
+
+  <!-- Disclaimer -->
+  <p class="text-center text-xs mb-12" style="color:hsl(var(--muted-foreground))">
+    <span data-vi>Không ép chuyển đổi toàn bộ ngay. OpenArch giúp doanh nghiệp giảm rủi ro bản quyền theo từng bước, không làm gián đoạn dự án đang chạy.</span>
+    <span data-en style="display:none">No forced full migration. OpenArch helps businesses reduce license risk step by step, without disrupting ongoing projects.</span>
+  </p>
+
+  <!-- Setup Check Widget -->
+  <div class="max-w-2xl mx-auto rounded-2xl overflow-hidden border" style="border-color:hsl(var(--border))">
+    <div class="bg-gray-950 dark:bg-gray-900 text-white px-6 py-4">
+      <div class="flex items-center gap-2 mb-5">
+        <span class="w-3 h-3 rounded-full bg-red-500"></span>
+        <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+        <span class="w-3 h-3 rounded-full bg-green-500"></span>
+        <span class="ml-auto text-xs text-gray-400 font-mono uppercase tracking-widest">OPENARCH SETUP CHECK</span>
+      </div>
+      <div class="space-y-3">
+        <div class="flex items-center justify-between py-2 border-b border-gray-800">
+          <div>
+            <div class="font-medium text-sm">CAD / PDF / Office</div>
+            <div class="text-xs text-gray-400" data-vi>Bộ công cụ cơ bản</div>
+            <div class="text-xs text-gray-400" data-en style="display:none">Core toolset</div>
+          </div>
+          <span class="text-xs font-mono font-bold text-green-400 bg-green-400/10 px-2 py-1 rounded">READY</span>
+        </div>
+        <div class="flex items-center justify-between py-2 border-b border-gray-800">
+          <div>
+            <div class="font-medium text-sm">3D / Render / Image</div>
+            <div class="text-xs text-gray-400" data-vi>Dựng hình, trình bày, chỉnh ảnh</div>
+            <div class="text-xs text-gray-400" data-en style="display:none">Modeling, presentation, image editing</div>
+          </div>
+          <span class="text-xs font-mono font-bold text-green-400 bg-green-400/10 px-2 py-1 rounded">READY</span>
+        </div>
+        <div class="flex items-center justify-between py-2 border-b border-gray-800">
+          <div>
+            <div class="font-medium text-sm">Open BIM / IFC</div>
+            <div class="text-xs text-gray-400" data-vi>Triển khai theo nhu cầu</div>
+            <div class="text-xs text-gray-400" data-en style="display:none">Deploy as needed</div>
+          </div>
+          <span class="text-xs font-mono font-bold text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">HYBRID</span>
+        </div>
+        <div class="flex items-center justify-between py-2">
+          <div>
+            <div class="font-medium text-sm">Ebook + Training</div>
+            <div class="text-xs text-gray-400" data-vi>Hướng dẫn cho team</div>
+            <div class="text-xs text-gray-400" data-en style="display:none">Team guide</div>
+          </div>
+          <span class="text-xs font-mono font-bold text-blue-400 bg-blue-400/10 px-2 py-1 rounded">INCLUDED</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PROBLEM ==================== -->
+<section class="py-20 border-t-theme">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:hsl(var(--muted-foreground))" data-vi>Vấn đề</div>
+    <div class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Problem</div>
+    <h2 class="text-3xl sm:text-4xl font-black max-w-2xl mb-4 leading-tight">
+      <span data-vi>Nhiều doanh nghiệp thiết kế &amp; xây dựng đang gặp cùng một vấn đề</span>
+      <span data-en style="display:none">Many design &amp; construction firms face the same problem</span>
+    </h2>
+    <p class="text-base mb-16 max-w-xl" style="color:hsl(var(--muted-foreground))">
+      <span data-vi>Phần mềm không rõ nguồn gốc, chi phí license cao và thiếu người hỗ trợ công nghệ chuyên ngành.</span>
+      <span data-en style="display:none">Unverified software sources, high license costs, and lack of specialized tech support.</span>
+    </p>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="space-y-3">
+        <div class="text-4xl font-black" style="color:hsl(var(--muted-foreground)/0.3)">01</div>
+        <h3 class="text-xl font-bold" data-vi>Rủi ro bản quyền</h3>
+        <h3 class="text-xl font-bold" data-en style="display:none">License Risk</h3>
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Nhiều thiết bị trong studio hoặc công trường đang dùng phần mềm khó kiểm soát license, nguồn cài đặt và rủi ro khi bị kiểm tra.</span>
+          <span data-en style="display:none">Many devices in studios or on-site use software with uncontrolled licenses and installation sources, creating audit risks.</span>
+        </p>
+      </div>
+      <div class="space-y-3">
+        <div class="text-4xl font-black" style="color:hsl(var(--muted-foreground)/0.3)">02</div>
+        <h3 class="text-xl font-bold" data-vi>Chi phí phần mềm cao</h3>
+        <h3 class="text-xl font-bold" data-en style="display:none">High Software Costs</h3>
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Không phải công ty nào cũng đủ ngân sách mua đầy đủ license thương mại cho toàn bộ nhân sự, đặc biệt là studio nhỏ hoặc đội công trường.</span>
+          <span data-en style="display:none">Not every company has budget for full commercial licenses for all staff, especially small studios or site teams.</span>
+        </p>
+      </div>
+      <div class="space-y-3">
+        <div class="text-4xl font-black" style="color:hsl(var(--muted-foreground)/0.3)">03</div>
+        <h3 class="text-xl font-bold" data-vi>Thiếu hỗ trợ công nghệ</h3>
+        <h3 class="text-xl font-bold" data-en style="display:none">Lack of Tech Support</h3>
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Kỹ sư, kiến trúc sư thường phải tự cài phần mềm, tự xử lý lỗi và tự tìm workflow, trong khi công ty không có IT chuyên ngành xây dựng.</span>
+          <span data-en style="display:none">Engineers and architects often install software themselves, troubleshoot alone, and find workflows independently without specialized construction IT.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SOLUTION ==================== -->
+<section class="py-20 border-t-theme" style="background:hsl(var(--muted))">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:hsl(var(--muted-foreground))" data-vi>Giải pháp</div>
+    <div class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Solution</div>
+    <h2 class="text-3xl sm:text-4xl font-black max-w-2xl mb-4 leading-tight">
+      <span data-vi>OpenArch không chỉ cài phần mềm. Chúng tôi giúp đội ngũ dùng được ngay.</span>
+      <span data-en style="display:none">OpenArch doesn't just install software. We help your team use it immediately.</span>
+    </h2>
+    <p class="text-sm mb-16 max-w-2xl" style="color:hsl(var(--muted-foreground))">
+      <span data-vi>Khảo sát nhu cầu, kiểm tra hiện trạng, đề xuất bộ công cụ phù hợp, cài đặt phần mềm hợp pháp, bàn giao ebook hướng dẫn, training cơ bản và hỗ trợ nâng cấp sau này.</span>
+      <span data-en style="display:none">Assess needs, review current state, propose suitable toolset, install legal software, deliver ebook guides, basic training and future upgrade support.</span>
+    </p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white dark:bg-gray-900 rounded-xl p-6 space-y-3 border" style="border-color:hsl(var(--border))">
+        <div class="w-8 h-8 rounded-lg bg-black dark:bg-white flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" class="dark:stroke-black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <h3 class="font-bold" data-vi>Cài đặt trước</h3>
+        <h3 class="font-bold" data-en style="display:none">Pre-installation</h3>
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Bộ công cụ theo vai trò: kiến trúc sư, kỹ sư công trường, BIM coordinator, freelancer hoặc studio nhỏ.</span>
+          <span data-en style="display:none">Role-based toolsets: architect, site engineer, BIM coordinator, freelancer or small studio.</span>
+        </p>
+      </div>
+      <div class="bg-white dark:bg-gray-900 rounded-xl p-6 space-y-3 border" style="border-color:hsl(var(--border))">
+        <div class="w-8 h-8 rounded-lg bg-black dark:bg-white flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" class="dark:stroke-black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <h3 class="font-bold" data-vi>Hướng dẫn dễ hiểu</h3>
+        <h3 class="font-bold" data-en style="display:none">Clear Guides</h3>
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Tặng ebook và checklist sử dụng cơ bản, viết cho người không chuyên công nghệ.</span>
+          <span data-en style="display:none">Free ebook and basic usage checklist, written for non-tech professionals.</span>
+        </p>
+      </div>
+      <div class="bg-white dark:bg-gray-900 rounded-xl p-6 space-y-3 border" style="border-color:hsl(var(--border))">
+        <div class="w-8 h-8 rounded-lg bg-black dark:bg-white flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" class="dark:stroke-black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 class="font-bold" data-vi>Training thực tế</h3>
+        <h3 class="font-bold" data-en style="display:none">Practical Training</h3>
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Đào tạo theo công việc thật: mở bản vẽ, chỉnh file, xuất PDF, dựng model, quản lý folder.</span>
+          <span data-en style="display:none">Training on real tasks: open drawings, edit files, export PDF, build models, manage folders.</span>
+        </p>
+      </div>
+      <div class="bg-white dark:bg-gray-900 rounded-xl p-6 space-y-3 border" style="border-color:hsl(var(--border))">
+        <div class="w-8 h-8 rounded-lg bg-black dark:bg-white flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" class="dark:stroke-black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="font-bold" data-vi>Hỗ trợ nâng cấp</h3>
+        <h3 class="font-bold" data-en style="display:none">Upgrade Support</h3>
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Gói hỗ trợ sau cài đặt, cập nhật phần mềm, training nâng cao, template và automation.</span>
+          <span data-en style="display:none">Post-install support, software updates, advanced training, templates and automation.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PRICING ==================== -->
+<section id="goi-dich-vu" class="py-20 border-t-theme">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:hsl(var(--muted-foreground))" data-vi>Gói dịch vụ</div>
+    <div class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Services</div>
+    <h2 class="text-3xl sm:text-4xl font-black mb-4 leading-tight">
+      <span data-vi>Chọn gói theo nhu cầu, không cần tự tìm từng phần mềm</span>
+      <span data-en style="display:none">Choose a package by need, no need to find each software yourself</span>
+    </h2>
+    <p class="text-sm mb-16" style="color:hsl(var(--muted-foreground))">
+      <span data-vi>Trang chủ chỉ giới thiệu gói chính. Danh sách phần mềm chi tiết nên để ở trang con riêng.</span>
+      <span data-en style="display:none">Homepage shows main packages only. Detailed software lists on sub-pages.</span>
+    </p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Card 1 -->
+      <div class="border rounded-2xl p-6 space-y-5 flex flex-col" style="border-color:hsl(var(--border))">
+        <div>
+          <div class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:hsl(var(--muted-foreground))" data-vi>Cá nhân</div>
+          <div class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Individual</div>
+          <h3 class="text-xl font-black">Starter Workstation</h3>
+          <p class="text-sm mt-1" style="color:hsl(var(--muted-foreground))" data-vi>Freelancer, KTS trẻ, sinh viên, nhân sự mới.</p>
+          <p class="text-sm mt-1" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Freelancer, young architect, student, new hire.</p>
+        </div>
+        <ul class="space-y-2 flex-1">
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Công cụ vẽ 2D, dựng 3D, chỉnh ảnh, PDF, office</span><span data-en style="display:none">2D drafting, 3D modeling, image editing, PDF, office</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Cài đặt phần mềm cơ bản</span><span data-en style="display:none">Basic software installation</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Ebook hướng dẫn</span><span data-en style="display:none">Guide ebook</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>1 buổi hướng dẫn nhanh</span><span data-en style="display:none">1 quick guide session</span></li>
+        </ul>
+        <a href="#dang-ky" class="block text-center border rounded-lg py-2.5 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors" style="border-color:hsl(var(--border))" data-vi>Tư vấn gói Starter</a>
+        <a href="#dang-ky" class="block text-center border rounded-lg py-2.5 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors" style="border-color:hsl(var(--border))" data-en style="display:none">Consult Starter</a>
+      </div>
+
+      <!-- Card 2 - Recommended -->
+      <div class="border-2 rounded-2xl p-6 space-y-5 flex flex-col relative" style="border-color:hsl(var(--foreground))">
+        <div class="absolute -top-3 left-6">
+          <span class="bg-black dark:bg-white text-white dark:text-black text-xs font-semibold px-3 py-1 rounded-full" data-vi>Khuyến nghị</span>
+          <span class="bg-black dark:bg-white text-white dark:text-black text-xs font-semibold px-3 py-1 rounded-full" data-en style="display:none">Recommended</span>
+        </div>
+        <div>
+          <div class="text-xs font-semibold uppercase tracking-widest mb-2 mt-1" style="color:hsl(var(--muted-foreground))" data-vi>Studio</div>
+          <div class="text-xs font-semibold uppercase tracking-widest mb-2 mt-1" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Studio</div>
+          <h3 class="text-xl font-black">Studio Setup</h3>
+          <p class="text-sm mt-1" style="color:hsl(var(--muted-foreground))" data-vi>Studio kiến trúc, nội thất, thiết kế nhỏ từ 5–30 người.</p>
+          <p class="text-sm mt-1" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Architecture, interior, design studio 5–30 people.</p>
+        </div>
+        <ul class="space-y-2 flex-1">
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Khảo sát nhu cầu và thiết bị đang dùng</span><span data-en style="display:none">Needs and device assessment</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Cài đặt bộ công cụ hợp pháp cho team</span><span data-en style="display:none">Legal toolset installation for team</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Template folder dự án</span><span data-en style="display:none">Project folder template</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Training nội bộ và hỗ trợ sau cài</span><span data-en style="display:none">Internal training and post-install support</span></li>
+        </ul>
+        <a href="#dang-ky" class="block text-center bg-black dark:bg-white text-white dark:text-black rounded-lg py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity" data-vi>Tư vấn cho studio</a>
+        <a href="#dang-ky" class="block text-center bg-black dark:bg-white text-white dark:text-black rounded-lg py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity" data-en style="display:none">Consult for studio</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="border rounded-2xl p-6 space-y-5 flex flex-col" style="border-color:hsl(var(--border))">
+        <div>
+          <div class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:hsl(var(--muted-foreground))" data-vi>Công trường</div>
+          <div class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Construction</div>
+          <h3 class="text-xl font-black">Site Laptop Kit</h3>
+          <p class="text-sm mt-1" style="color:hsl(var(--muted-foreground))" data-vi>Công ty xây dựng, kỹ sư công trường, đội giám sát.</p>
+          <p class="text-sm mt-1" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Construction company, site engineers, supervision team.</p>
+        </div>
+        <ul class="space-y-2 flex-1">
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Mở bản vẽ, PDF, ảnh hiện trường</span><span data-en style="display:none">Open drawings, PDF, site photos</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Ghi chú, nén file, chuyển đổi file</span><span data-en style="display:none">Notes, file compression, file conversion</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Folder và đồng bộ dữ liệu</span><span data-en style="display:none">Folder and data sync</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Checklist laptop công trường</span><span data-en style="display:none">Site laptop checklist</span></li>
+        </ul>
+        <a href="#dang-ky" class="block text-center border rounded-lg py-2.5 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors" style="border-color:hsl(var(--border))" data-vi>Tư vấn cho công trường</a>
+        <a href="#dang-ky" class="block text-center border rounded-lg py-2.5 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors" style="border-color:hsl(var(--border))" data-en style="display:none">Consult for site</a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="border rounded-2xl p-6 space-y-5 flex flex-col" style="border-color:hsl(var(--border))">
+        <div>
+          <div class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:hsl(var(--muted-foreground))" data-vi>Nâng cao</div>
+          <div class="text-xs font-semibold uppercase tracking-widest mb-2" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Advanced</div>
+          <h3 class="text-xl font-black">Open BIM Hybrid</h3>
+          <p class="text-sm mt-1" style="color:hsl(var(--muted-foreground))" data-vi>Studio hoặc BIM team muốn giảm phụ thuộc dần vào phần mềm thương mại.</p>
+          <p class="text-sm mt-1" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Studio or BIM team reducing dependency on commercial software.</p>
+        </div>
+        <ul class="space-y-2 flex-1">
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Tư vấn workflow IFC / Open BIM</span><span data-en style="display:none">IFC / Open BIM workflow consulting</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Cài đặt công cụ BIM open source</span><span data-en style="display:none">Open source BIM tool installation</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Training quy trình hybrid</span><span data-en style="display:none">Hybrid workflow training</span></li>
+          <li class="flex items-start gap-2 text-sm"><svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Hỗ trợ triển khai theo giai đoạn</span><span data-en style="display:none">Phased deployment support</span></li>
+        </ul>
+        <a href="#dang-ky" class="block text-center border rounded-lg py-2.5 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors" style="border-color:hsl(var(--border))" data-vi>Tìm hiểu Open BIM</a>
+        <a href="#dang-ky" class="block text-center border rounded-lg py-2.5 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors" style="border-color:hsl(var(--border))" data-en style="display:none">Learn Open BIM</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PROCESS ==================== -->
+<section id="quy-trinh" class="py-20 border-t-theme" style="background:hsl(var(--muted))">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:hsl(var(--muted-foreground))" data-vi>Quy trình</div>
+    <div class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Process</div>
+    <h2 class="text-3xl sm:text-4xl font-black mb-16 leading-tight">
+      <span data-vi>Triển khai nhanh, dễ hiểu</span>
+      <span data-en style="display:none">Fast deployment, easy to understand</span>
+    </h2>
+    <div class="grid sm:grid-cols-5 gap-6">
+      <div class="text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-black dark:bg-white text-white dark:text-black font-black text-lg flex items-center justify-center mx-auto">1</div>
+        <h3 class="font-bold text-sm" data-vi>Đăng ký thông tin</h3>
+        <h3 class="font-bold text-sm" data-en style="display:none">Register info</h3>
+        <p class="text-xs leading-relaxed" style="color:hsl(var(--muted-foreground))"><span data-vi>Để lại thông tin công ty, quy mô và vấn đề đang gặp.</span><span data-en style="display:none">Leave company info, size and current problems.</span></p>
+      </div>
+      <div class="text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 font-black text-lg flex items-center justify-center mx-auto">2</div>
+        <h3 class="font-bold text-sm" data-vi>Kiểm tra nhanh</h3>
+        <h3 class="font-bold text-sm" data-en style="display:none">Quick check</h3>
+        <p class="text-xs leading-relaxed" style="color:hsl(var(--muted-foreground))"><span data-vi>Trao đổi 15–30 phút để xác định nhu cầu và rủi ro.</span><span data-en style="display:none">15–30 min discussion to identify needs and risks.</span></p>
+      </div>
+      <div class="text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 font-black text-lg flex items-center justify-center mx-auto">3</div>
+        <h3 class="font-bold text-sm" data-vi>Đề xuất gói</h3>
+        <h3 class="font-bold text-sm" data-en style="display:none">Propose package</h3>
+        <p class="text-xs leading-relaxed" style="color:hsl(var(--muted-foreground))"><span data-vi>Nhận đề xuất cài đặt, training và hỗ trợ phù hợp.</span><span data-en style="display:none">Receive suitable installation, training and support proposal.</span></p>
+      </div>
+      <div class="text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 font-black text-lg flex items-center justify-center mx-auto">4</div>
+        <h3 class="font-bold text-sm" data-vi>Cài đặt &amp; bàn giao</h3>
+        <h3 class="font-bold text-sm" data-en style="display:none">Install &amp; handover</h3>
+        <p class="text-xs leading-relaxed" style="color:hsl(var(--muted-foreground))"><span data-vi>Cấu hình, bàn giao ebook, checklist và hướng dẫn.</span><span data-en style="display:none">Configure, deliver ebook, checklist and guide.</span></p>
+      </div>
+      <div class="text-center space-y-3">
+        <div class="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 font-black text-lg flex items-center justify-center mx-auto">5</div>
+        <h3 class="font-bold text-sm" data-vi>Hỗ trợ sau cài</h3>
+        <h3 class="font-bold text-sm" data-en style="display:none">Post-install support</h3>
+        <p class="text-xs leading-relaxed" style="color:hsl(var(--muted-foreground))"><span data-vi>Training bổ sung, cập nhật, nâng cấp template hoặc automation.</span><span data-en style="display:none">Additional training, updates, template or automation upgrades.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EBOOK ==================== -->
+<section id="ebook" class="py-20 border-t-theme">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="space-y-6">
+        <div class="text-xs font-semibold uppercase tracking-widest" style="color:hsl(var(--muted-foreground))" data-vi>Ebook miễn phí</div>
+        <div class="text-xs font-semibold uppercase tracking-widest" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Free Ebook</div>
+        <h2 class="text-3xl sm:text-4xl font-black leading-tight">
+          <span data-vi>Sổ tay chuyển đổi phần mềm hợp pháp cho văn phòng kiến trúc Việt Nam</span>
+          <span data-en style="display:none">Legal Software Transition Guide for Vietnamese Architecture Offices</span>
+        </h2>
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Ebook giúp chủ studio, kiến trúc sư và kỹ sư hiểu cách giảm rủi ro bản quyền, chọn phần mềm phù hợp và chuyển đổi từng bước mà không làm gián đoạn dự án.</span>
+          <span data-en style="display:none">The ebook helps studio owners, architects and engineers understand how to reduce license risks, choose the right software and migrate step by step without disrupting projects.</span>
+        </p>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-2 text-sm"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Checklist laptop kiến trúc sư và công trường</span><span data-en style="display:none">Architect and site laptop checklist</span></li>
+          <li class="flex items-center gap-2 text-sm"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Lộ trình chuyển đổi 30–60–90 ngày</span><span data-en style="display:none">30–60–90 day migration roadmap</span></li>
+          <li class="flex items-center gap-2 text-sm"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></svg><span data-vi>Khi nào vẫn nên dùng phần mềm thương mại</span><span data-en style="display:none">When commercial software is still recommended</span></li>
+        </ul>
+        <a href="#dang-ky" class="inline-flex items-center gap-2 bg-black dark:bg-white text-white dark:text-black font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity">
+          <span data-vi>Đăng ký nhận ebook</span>
+          <span data-en style="display:none">Get the ebook</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Ebook mockup -->
+      <div class="flex justify-center">
+        <div class="w-56 h-72 bg-gray-950 rounded-2xl shadow-2xl flex flex-col items-center justify-center text-white p-6 text-center border border-gray-800">
+          <div class="text-xs font-mono uppercase tracking-widest text-gray-400 mb-4">OPENARCH 2026</div>
+          <div class="font-bold text-base leading-tight mb-4" data-vi>Sổ tay chuyển đổi phần mềm hợp pháp</div>
+          <div class="font-bold text-base leading-tight mb-4" data-en style="display:none">Legal Software Transition Guide</div>
+          <div class="text-xs text-gray-400" data-vi>Cho studio kiến trúc, công ty xây dựng và kỹ sư công trường.</div>
+          <div class="text-xs text-gray-400" data-en style="display:none">For architecture studios, construction firms and site engineers.</div>
+          <div class="mt-4 text-xs font-mono text-gray-500">PDF · 2026 EDITION</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTACT FORM ==================== -->
+<section id="dang-ky" class="py-20 border-t-theme" style="background:hsl(var(--muted))">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid lg:grid-cols-2 gap-16">
+      <div class="space-y-6">
+        <div class="text-xs font-semibold uppercase tracking-widest" style="color:hsl(var(--muted-foreground))" data-vi>Liên hệ</div>
+        <div class="text-xs font-semibold uppercase tracking-widest" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Contact</div>
+        <h2 class="text-3xl sm:text-4xl font-black leading-tight">
+          <span data-vi>Đăng ký tư vấn / nhận ebook miễn phí</span>
+          <span data-en style="display:none">Register for consultation / free ebook</span>
+        </h2>
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Để lại thông tin, OpenArch sẽ liên hệ để tư vấn gói cài đặt phù hợp hoặc gửi ebook hướng dẫn cơ bản.</span>
+          <span data-en style="display:none">Leave your info, OpenArch will contact you to advise on a suitable package or send the basic ebook guide.</span>
+        </p>
+        <div class="space-y-4 pt-4">
+          <div class="flex items-center gap-3 text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+            <a href="tel:0918099336" class="hover:underline">+84 918 099 336</a>
+          </div>
+          <div class="flex items-center gap-3 text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+            <a href="tel:0939460468" class="hover:underline">+84 939 460 468</a>
+          </div>
+          <div class="flex items-center gap-3 text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <a href="mailto:hello@openarch.vn" class="hover:underline">hello@openarch.vn</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="bg-white dark:bg-gray-900 rounded-2xl p-8 border" style="border-color:hsl(var(--border))">
+        <form id="contact-form" class="space-y-5" onsubmit="handleSubmit(event)">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="space-y-1.5 sm:col-span-2">
+              <label class="text-sm font-medium" for="f-name">
+                <span data-vi>Họ và tên</span><span data-en style="display:none">Full name</span>
+                <span class="text-red-500 ml-1">*</span>
+              </label>
+              <input id="f-name" type="text" required placeholder="Nguyễn Văn A"
+                class="w-full px-3 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition bg-transparent"
+                style="border-color:hsl(var(--border))" />
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium" for="f-company" data-vi>Công ty / studio</label>
+              <label class="text-sm font-medium" for="f-company" data-en style="display:none">Company / studio</label>
+              <input id="f-company" type="text" placeholder="OpenArch Studio"
+                class="w-full px-3 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition bg-transparent"
+                style="border-color:hsl(var(--border))" />
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium" for="f-role" data-vi>Vai trò</label>
+              <label class="text-sm font-medium" for="f-role" data-en style="display:none">Role</label>
+              <input id="f-role" type="text" placeholder="Kiến trúc sư / Kỹ sư"
+                class="w-full px-3 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition bg-transparent"
+                style="border-color:hsl(var(--border))" />
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium" for="f-phone">
+                <span data-vi>Số điện thoại / Zalo</span><span data-en style="display:none">Phone / Zalo</span>
+                <span class="text-red-500 ml-1">*</span>
+              </label>
+              <input id="f-phone" type="tel" required placeholder="09xx xxx xxx"
+                class="w-full px-3 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition bg-transparent"
+                style="border-color:hsl(var(--border))" />
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium" for="f-email">Email</label>
+              <input id="f-email" type="email" placeholder="email@company.com"
+                class="w-full px-3 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition bg-transparent"
+                style="border-color:hsl(var(--border))" />
+            </div>
+            <div class="space-y-1.5 sm:col-span-2">
+              <label class="text-sm font-medium" for="f-scale" data-vi>Quy mô dự kiến</label>
+              <label class="text-sm font-medium" for="f-scale" data-en style="display:none">Expected scale</label>
+              <select id="f-scale"
+                class="w-full px-3 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition bg-transparent"
+                style="border-color:hsl(var(--border));background:hsl(var(--background))">
+                <option value="" data-vi>Chọn quy mô</option>
+                <option value="1">1 người / 1 person</option>
+                <option value="2-5">2–5 người / 2–5 people</option>
+                <option value="6-15">6–15 người / 6–15 people</option>
+                <option value="16-30">16–30 người / 16–30 people</option>
+                <option value="30+">30+ người / 30+ people</option>
+              </select>
+            </div>
+            <div class="space-y-2 sm:col-span-2">
+              <label class="text-sm font-medium" data-vi>Nhóm nhu cầu</label>
+              <label class="text-sm font-medium" data-en style="display:none">Need group</label>
+              <div class="flex flex-wrap gap-2" id="need-pills">
+                <button type="button" class="need-pill text-xs px-3 py-1.5 rounded-full border transition" style="border-color:hsl(var(--border))" data-value="ca-nhan" data-vi onclick="togglePill(this)">Cài đặt cá nhân</button>
+                <button type="button" class="need-pill text-xs px-3 py-1.5 rounded-full border transition" style="border-color:hsl(var(--border))" data-value="ca-nhan" data-en style="display:none" onclick="togglePill(this)">Individual setup</button>
+                <button type="button" class="need-pill text-xs px-3 py-1.5 rounded-full border transition" style="border-color:hsl(var(--border))" data-value="studio" data-vi onclick="togglePill(this)">Cài cho studio</button>
+                <button type="button" class="need-pill text-xs px-3 py-1.5 rounded-full border transition" style="border-color:hsl(var(--border))" data-value="studio" data-en style="display:none" onclick="togglePill(this)">Studio setup</button>
+                <button type="button" class="need-pill text-xs px-3 py-1.5 rounded-full border transition" style="border-color:hsl(var(--border))" data-value="cong-truong" data-vi onclick="togglePill(this)">Cài cho đội công trường</button>
+                <button type="button" class="need-pill text-xs px-3 py-1.5 rounded-full border transition" style="border-color:hsl(var(--border))" data-value="cong-truong" data-en style="display:none" onclick="togglePill(this)">Site team setup</button>
+                <button type="button" class="need-pill text-xs px-3 py-1.5 rounded-full border transition" style="border-color:hsl(var(--border))" data-value="training" onclick="togglePill(this)">Training</button>
+                <button type="button" class="need-pill text-xs px-3 py-1.5 rounded-full border transition" style="border-color:hsl(var(--border))" data-value="bim" onclick="togglePill(this)">Open BIM / IFC</button>
+                <button type="button" class="need-pill text-xs px-3 py-1.5 rounded-full border transition" style="border-color:hsl(var(--border))" data-value="ban-quyen" data-vi onclick="togglePill(this)">Hỗ trợ bản quyền &amp; chuẩn hóa</button>
+                <button type="button" class="need-pill text-xs px-3 py-1.5 rounded-full border transition" style="border-color:hsl(var(--border))" data-value="ban-quyen" data-en style="display:none" onclick="togglePill(this)">License &amp; standardization</button>
+              </div>
+            </div>
+            <div class="space-y-1.5 sm:col-span-2">
+              <label class="text-sm font-medium" for="f-message" data-vi>Ghi chú vấn đề đang gặp</label>
+              <label class="text-sm font-medium" for="f-message" data-en style="display:none">Note the problem you're facing</label>
+              <textarea id="f-message" rows="3" placeholder="Mô tả ngắn..."
+                class="w-full px-3 py-2.5 rounded-lg border text-sm outline-none focus:ring-2 focus:ring-black/20 dark:focus:ring-white/20 transition bg-transparent resize-none"
+                style="border-color:hsl(var(--border))"></textarea>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button id="submit-btn" type="submit"
+            class="w-full bg-black dark:bg-white text-white dark:text-black font-semibold py-3 rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+            <span id="btn-text" data-vi>Gửi thông tin</span>
+            <span id="btn-spinner" class="hidden"><span class="spinner"></span></span>
+          </button>
+
+          <!-- Success message -->
+          <div id="success-msg" class="hidden text-center py-4">
+            <div class="text-green-600 dark:text-green-400 font-semibold mb-1" data-vi>✓ Đã gửi thành công!</div>
+            <div class="text-green-600 dark:text-green-400 font-semibold mb-1" data-en style="display:none">✓ Sent successfully!</div>
+            <p class="text-sm" style="color:hsl(var(--muted-foreground))" data-vi>OpenArch sẽ liên hệ với bạn trong thời gian sớm nhất.</p>
+            <p class="text-sm" style="color:hsl(var(--muted-foreground))" data-en style="display:none">OpenArch will contact you as soon as possible.</p>
+          </div>
+
+          <p class="text-xs text-center" style="color:hsl(var(--muted-foreground))">
+            <span data-vi>Bằng việc gửi form, bạn đồng ý được OpenArch liên hệ qua email / SĐT / Zalo.</span>
+            <span data-en style="display:none">By submitting, you agree to be contacted by OpenArch via email / phone / Zalo.</span>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section id="faq" class="py-20 border-t-theme">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <div class="text-xs font-semibold uppercase tracking-widest mb-4" style="color:hsl(var(--muted-foreground))">FAQ</div>
+    <h2 class="text-3xl sm:text-4xl font-black mb-12" data-vi>Câu hỏi thường gặp</h2>
+    <h2 class="text-3xl sm:text-4xl font-black mb-12" data-en style="display:none">Frequently Asked Questions</h2>
+    <div class="space-y-3" id="faq-list">
+      <div class="faq-item border rounded-xl overflow-hidden" style="border-color:hsl(var(--border))">
+        <button class="w-full flex items-center justify-between px-6 py-4 text-left font-medium text-sm" onclick="toggleFaq(this.parentElement)">
+          <span data-vi>OpenArch có thay thế hoàn toàn Revit hoặc AutoCAD không?</span>
+          <span data-en style="display:none">Does OpenArch completely replace Revit or AutoCAD?</span>
+          <svg class="faq-chevron w-4 h-4 shrink-0 ml-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer px-6 pb-4 text-sm" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Không nên hiểu như vậy. OpenArch giúp giảm phụ thuộc và giảm rủi ro bản quyền theo từng bước, ưu tiên workflow hybrid để không gián đoạn dự án.</span>
+          <span data-en style="display:none">Not to be understood that way. OpenArch helps reduce dependency and license risk step by step, prioritizing hybrid workflow to avoid disrupting projects.</span>
+        </div>
+      </div>
+      <div class="faq-item border rounded-xl overflow-hidden" style="border-color:hsl(var(--border))">
+        <button class="w-full flex items-center justify-between px-6 py-4 text-left font-medium text-sm" onclick="toggleFaq(this.parentElement)">
+          <span data-vi>Phần mềm open source có hợp pháp không?</span>
+          <span data-en style="display:none">Is open source software legal?</span>
+          <svg class="faq-chevron w-4 h-4 shrink-0 ml-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer px-6 pb-4 text-sm" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Có, nếu tải đúng nguồn, dùng đúng license và quản lý đúng cách. OpenArch hỗ trợ cài đặt từ nguồn chính thức và bàn giao checklist sử dụng.</span>
+          <span data-en style="display:none">Yes, if downloaded from the right source, used with the right license and managed correctly. OpenArch supports installation from official sources and delivers usage checklists.</span>
+        </div>
+      </div>
+      <div class="faq-item border rounded-xl overflow-hidden" style="border-color:hsl(var(--border))">
+        <button class="w-full flex items-center justify-between px-6 py-4 text-left font-medium text-sm" onclick="toggleFaq(this.parentElement)">
+          <span data-vi>Cài xong nhân sự có dùng được ngay không?</span>
+          <span data-en style="display:none">Can staff use it immediately after installation?</span>
+          <svg class="faq-chevron w-4 h-4 shrink-0 ml-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer px-6 pb-4 text-sm" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Có thể dùng cho các tác vụ cơ bản sau hướng dẫn. Với workflow BIM, IFC hoặc phối hợp nhiều bộ môn, nên có thêm training nâng cao.</span>
+          <span data-en style="display:none">Can be used for basic tasks after guidance. For BIM, IFC workflows or multi-discipline coordination, additional advanced training is recommended.</span>
+        </div>
+      </div>
+      <div class="faq-item border rounded-xl overflow-hidden" style="border-color:hsl(var(--border))">
+        <button class="w-full flex items-center justify-between px-6 py-4 text-left font-medium text-sm" onclick="toggleFaq(this.parentElement)">
+          <span data-vi>Có hỗ trợ sau khi cài không?</span>
+          <span data-en style="display:none">Is there support after installation?</span>
+          <svg class="faq-chevron w-4 h-4 shrink-0 ml-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer px-6 pb-4 text-sm" style="color:hsl(var(--muted-foreground))">
+          <span data-vi>Có. Gói hỗ trợ theo tháng bao gồm xử lý lỗi, cập nhật phần mềm, cài đặt mới, training bổ sung và nâng cấp template.</span>
+          <span data-en style="display:none">Yes. Monthly support packages include error handling, software updates, new installations, additional training and template upgrades.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="border-t-theme py-12">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid sm:grid-cols-3 gap-8 mb-8">
+      <div class="space-y-4">
+        <img src="/assets/images/openarch-logo.png" alt="OpenArch" class="h-6 w-auto" onerror="this.style.display='none'" />
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))" data-vi>Cộng đồng thúc đẩy chuyển đổi nguồn mở cho ngành kiến trúc, xây dựng và BIM tại Việt Nam. Mọi nội dung công khai, không lock-in, không affiliate.</p>
+        <p class="text-sm leading-relaxed" style="color:hsl(var(--muted-foreground))" data-en style="display:none">Community promoting open source transition for architecture, construction and BIM in Vietnam. All content public, no lock-in, no affiliate.</p>
+        <div class="space-y-1">
+          <a href="mailto:hello@openarch.vn" class="block text-sm hover:underline" style="color:hsl(var(--muted-foreground))">hello@openarch.vn</a>
+          <a href="tel:0918099336" class="block text-sm hover:underline" style="color:hsl(var(--muted-foreground))">+84 918 099 336</a>
+          <a href="tel:0939460468" class="block text-sm hover:underline" style="color:hsl(var(--muted-foreground))">+84 939 460 468</a>
+        </div>
+      </div>
+      <div class="space-y-3">
+        <div class="text-xs font-semibold uppercase tracking-widest" data-vi>Menu</div>
+        <nav class="space-y-2 text-sm" style="color:hsl(var(--muted-foreground))">
+          <a href="#goi-dich-vu" class="block hover:underline" data-vi>Gói dịch vụ</a>
+          <a href="#goi-dich-vu" class="block hover:underline" data-en style="display:none">Services</a>
+          <a href="#quy-trinh" class="block hover:underline" data-vi>Quy trình</a>
+          <a href="#quy-trinh" class="block hover:underline" data-en style="display:none">Process</a>
+          <a href="#ebook" class="block hover:underline">Ebook</a>
+          <a href="#faq" class="block hover:underline">FAQ</a>
+        </nav>
+      </div>
+      <div class="space-y-3">
+        <div class="text-xs font-semibold uppercase tracking-widest" data-vi>Liên hệ</div>
+        <div class="text-xs font-semibold uppercase tracking-widest" data-en style="display:none">Contact</div>
+        <div class="space-y-2 text-sm" style="color:hsl(var(--muted-foreground))">
+          <a href="tel:0918099336" class="block hover:underline">+84 918 099 336</a>
+          <a href="tel:0939460468" class="block hover:underline">+84 939 460 468</a>
+          <a href="mailto:hello@openarch.vn" class="block hover:underline">hello@openarch.vn</a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t-theme pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <img src="/assets/images/nexos-logomark.png" alt="NEXOS" class="h-5 w-auto" onerror="this.style.display='none'" />
+        <span class="text-xs" style="color:hsl(var(--muted-foreground))">Một thành viên của NEXOS</span>
+      </div>
+      <p class="text-xs" style="color:hsl(var(--muted-foreground))">© 2026 OpenArch — Một thành viên của NEXOS.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- External JS -->
+<script src="/assets/js/main.js" defer></script>
+
+</body>
+</html>

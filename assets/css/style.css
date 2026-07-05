@@ -1,0 +1,122 @@
+/* OpenArch V2 — style.css
+   Custom CSS overrides & CSS variables (supplement to Tailwind CDN)
+   Last updated: 2026-07-05
+*/
+
+/* ── CSS Variables ── */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 3.9%;
+  --border: 0 0% 89.8%;
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 240 100% 50%;
+  --accent-foreground: 0 0% 100%;
+  --primary: 240 100% 50%;
+  --primary-foreground: 0 0% 100%;
+  --blue-accent: #0000fe;
+  --blue-accent-h: #0000cc;
+}
+.dark {
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 7%;
+  --card-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 240 100% 65%;
+  --accent-foreground: 0 0% 100%;
+  --primary: 240 100% 65%;
+  --primary-foreground: 0 0% 100%;
+  --blue-accent: #4f4fff;
+  --blue-accent-h: #7070ff;
+}
+
+/* ── Base ── */
+* { font-family: 'Inter', system-ui, sans-serif; }
+.font-mono, .mono { font-family: 'JetBrains Mono', monospace !important; }
+html { scroll-behavior: smooth; }
+body { background-color: hsl(var(--background)); color: hsl(var(--foreground)); }
+
+/* ── FAQ accordion ── */
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.faq-item.open .faq-answer { max-height: 300px; }
+.faq-item.open .faq-chevron { transform: rotate(180deg); }
+.faq-chevron { transition: transform 0.3s ease; }
+
+/* ── Language toggle ── */
+[data-en] { display: none; }
+html[lang="en"] [data-vi] { display: none; }
+html[lang="en"] [data-en] { display: revert; }
+
+/* ── Need checkbox pills ── */
+.need-pill { cursor: pointer; transition: all 0.15s; }
+.need-pill.selected { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+
+/* ── Spinner ── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { animation: spin 1s linear infinite; border: 2px solid transparent; border-top-color: currentColor; border-radius: 50%; width: 16px; height: 16px; display: inline-block; }
+
+/* ── Smooth border ── */
+.border-b-theme { border-bottom: 1px solid hsl(var(--border)); }
+
+/* ── Step connector ── */
+.step-line::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 32px;
+  background: hsl(var(--border));
+  transform: translateX(-50%);
+}
+
+/* ── Mobile menu ── */
+#mobile-menu { display: none; }
+#mobile-menu.open { display: block; }
+
+/* ── Electric Blue brand (Nexos accent #0000FE) ── */
+.bg-black, button.bg-black { background-color: #0000fe !important; }
+.dark .bg-white { background-color: #4f4fff !important; }
+.dark\:bg-white { background-color: #0000fe; }
+
+/* All primary CTA links & buttons */
+a.bg-black, a[class*="bg-black"] {
+  background-color: #0000fe !important;
+  color: #fff !important;
+}
+a.bg-black:hover, button.bg-black:hover { background-color: #0000cc !important; }
+
+/* Dark mode primary */
+.dark a.dark\:bg-white, .dark button.dark\:bg-white {
+  background-color: #4f4fff !important;
+  color: #fff !important;
+}
+
+/* Recommended card border */
+.border-2 { border-color: #0000fe !important; }
+.border-2 .absolute span { background-color: #0000fe !important; color: #fff !important; }
+
+/* Step 1 filled circle */
+div.rounded-full.bg-black { background-color: #0000fe !important; color: #fff !important; }
+
+/* Solution section icon bg */
+div.rounded-lg.bg-black { background-color: #0000fe !important; }
+
+/* Submit button */
+button#submit-btn { background-color: #0000fe !important; color: #fff !important; }
+button#submit-btn:hover { background-color: #0000cc !important; }
+
+/* Nav CTA */
+header a.bg-black { background-color: #0000fe !important; color: #fff !important; }
+
+/* Need pill selected */
+.need-pill.selected { background-color: #0000fe !important; color: #fff !important; }
+
+/* Font mono for terminal elements */
+.font-mono { font-family: 'JetBrains Mono', monospace !important; }
+span.font-mono, div.font-mono { font-family: 'JetBrains Mono', monospace !important; }
